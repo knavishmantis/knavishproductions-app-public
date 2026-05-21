@@ -21,6 +21,7 @@ flowchart TB
   CR --> SM[Secret Manager]
   CR --> Auth
   GHA -->|deploy| CR
+  GHA -->|deploy| FB
   PE -->|writes| SQL
   PE -->|writes| Briefs
 ```
