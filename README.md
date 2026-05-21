@@ -28,18 +28,18 @@ flowchart TB
 
 Six modules behind a single Next.js App Router app:
 
-1. **Brief inbox** — consumer side of the producer/consumer contract with `prospecting-engine`. Reads briefs from a Postgres table + GCS prefix the engine writes to; the engine never reads anything the app writes.
-2. **Script editor** — Tiptap-based rich editor for turning a brief into a filmable script. Per-short revisions, comments.
-3. **Asset manager** — reusable clip library + world presets, downloadable per script call so the channel's look stays consistent.
+1. **Brief inbox** — consumes briefs from `prospecting-engine`.
+2. **Script editor** — Tiptap-based editor; brief → filmable script.
+3. **Asset manager** — reusable clip + world-preset library.
 
    ![Assets page](assets-storage.png)
 
-4. **Editor handoff** — public `/apply` intake (honeypot + min-time-on-page checks before insert), then handoff packages script + assets into a workable bundle for a paid editor; tracks status from sent → revised → accepted.
+4. **Editor handoff** — public `/apply` intake (with anti-spam) → packages script + assets for a paid editor.
 
    ![Applications page · PII redacted](applications.png)
 
-5. **Payment tracker** — pay-per-short accounting against the editor handoff stream; reconciles what's owed to whom.
-6. **Teardown** — per-short post-publish analysis: pull out the techniques that worked (popup graphics, POV choices, b-roll patterns) so the channel's style is reusable.
+5. **Payment tracker** — pay-per-short accounting against the handoff stream.
+6. **Teardown** — annotations on Minecraft shorts so the channel's style is reusable.
 
    ![Teardown page](teardown.png)
 
