@@ -7,13 +7,22 @@ Production pipeline app for the [KnavishMantis](https://youtube.com/@knavishmant
 Closes the loop on the channel's content pipeline: takes validated briefs from [prospecting-engine](https://github.com/knavishmantis/prospecting-engine-public), runs them through scripting, asset handoff to paid editors, and payment tracking. Replaces a scattered toolchain (one tool per stage) with a single app where shorts move through the workflow end-to-end.
 
 ```mermaid
-flowchart LR
-  PE[prospecting-engine] -->|brief| Inbox[brief inbox]
-  Inbox --> Script[script editor]
-  Script --> Assets[asset manager]
-  Assets --> Handoff[editor handoff]
-  Handoff --> Pay[payment tracker]
-  Pay --> Ship[shipped short]
+flowchart TB
+  User[Browser · knavishproductions.com]
+  Auth[Google OAuth]
+  GHA[GitHub Actions]
+  PE[prospecting-engine · Cloud Run]
+
+  User --> FB[Firebase Hosting · CDN]
+  FB --> CR[Cloud Run · Next.js app]
+  CR --> SQL[(Cloud SQL · Postgres)]
+  CR --> Assets[(GCS · assets)]
+  CR --> Briefs[(GCS · briefs)]
+  CR --> SM[Secret Manager]
+  CR --> Auth
+  GHA -->|deploy| CR
+  PE -->|writes| SQL
+  PE -->|writes| Briefs
 ```
 
 Five modules behind a single Next.js App Router app:
